@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Camellia & Arian · September 19, 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Great+Vibes&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    :root {
+      /* Light palette — from the invite */
+      --cream:     #F3EEE6;
+      --cream2:    #EAE3D8;
+      --cream3:    #D9D0C2;
+      --off-white: #FAFAF6;
+      --sky:       #DDE4E8;
+
+      /* Dark palette — deep vineyard nights */
+      --deep:      #1B2217;
+      --deep2:     #232D1C;
+      --char:      #2A2620;
+
+      /* Text on light */
+      --ink:       #2C2720;
+      --ink2:      #5E5750;
+      --ink3:      #9C9288;
+
+      /* Text on dark */
+      --pale:      #F0EBE2;
+      --pale2:     rgba(240,235,226,.65);
+      --pale3:     rgba(240,235,226,.38);
+
+      /* Accents */
+      --sage:      #7A8A68;
+      --sage-lt:   #9BAE88;
+      --sage-dk:   #4A5A38;
+      --gold:      #B89050;
+      --gold-lt:   #D4AA6A;
+      --wine:      #6B3042;
+
+      /* Lines */
+      --line-lt:   rgba(44,39,32,.12);
+      --line-dk:   rgba(240,235,226,.1);
+    }
+
+    html { scroll-behavior:smooth; }
+    body { font-family:'Lato', sans-serif; background:var(--cream); color:var(--ink); overflow-x:hidden; }
+
+    /* ── Loading ──────────────────────────────────── */
+    #loading {
+      position:fixed; inset:0; z-index:9999;
+      background:var(--cream);
+      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2rem;
+      transition:opacity .8s ease, visibility .8s ease;
+    }
+    #loading.out { opacity:0; visibility:hidden; }
+    .ld-script { font-family:'Great Vibes', cursive; font-size:2.5rem; color:var(--sage); animation:fadeIn 1s ease both; }
+    .ld-dots { display:flex; gap:.5rem; }
+    .ld-dot { width:6px; height:6px; border-radius:50%; background:var(--gold); animation:dotPulse 1.2s ease-in-out infinite; }
+    .ld-dot:nth-child(2) { animation-delay:.2s; }
+    .ld-dot:nth-child(3) { animation-delay:.4s; }
+    @keyframes dotPulse { 0%,100%{opacity:.25;transform:scale(.8)} 50%{opacity:1;transform:scale(1)} }
+
+    /* ── Navigation ───────────────────────────────── */
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:200;
+      height:56px; display:flex; align-items:center; justify-content:space-between;
+      padding:0 2.5rem;
+      background:rgba(243,238,230,.94); backdrop-filter:blur(16px);
+      border-bottom:1px solid var(--line-lt);
+      transition:background .3s;
+    }
+    nav.dark-nav { background:rgba(27,34,23,.94); border-bottom-color:var(--line-dk); }
+    nav.dark-nav .nav-brand,
+    nav.dark-nav .nav-links a { color:var(--pale2); }
+    nav.dark-nav .nav-links a:hover { color:var(--pale); }
+
+    .nav-brand {
+      font-family:'Cormorant Garant', serif;
+      font-size:1.05rem; font-weight:500; letter-spacing:3px;
+      text-transform:uppercase; color:var(--ink2);
+    }
+    .nav-links { display:flex; gap:2.5rem; list-style:none; }
+    .nav-links a {
+      text-decoration:none; font-family:'Lato',sans-serif;
+      font-size:.7rem; font-weight:400; letter-spacing:2.5px;
+      text-transform:uppercase; color:var(--ink2); transition:color .25s;
+    }
+    .nav-links a:hover { color:var(--ink); }
+    .nav-burger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:4px; }
+    .nav-burger span { display:block; width:22px; height:1px; background:var(--ink2); transition:.3s; }
+
+    /* ── Hero ─────────────────────────────────────── */
+    #hero {
+      min-height:100vh; padding-top:56px;
+      background:var(--cream);
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      position:relative; overflow:hidden;
+    }
+
+    /* Linen texture */
+    #hero::before {
+      content:'';
+      position:absolute; inset:0; pointer-events:none;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+      background-repeat:repeat;
+      mix-blend-mode:multiply;
+    }
+
+    /* Sky watercolor wash — top portion */
+    .hero-sky {
+      position:absolute; top:0; left:0; right:0; height:55%;
+      background:linear-gradient(180deg,
+        rgba(210,220,230,.22) 0%,
+        rgba(210,220,230,.08) 60%,
+        transparent 100%);
+      pointer-events:none;
+    }
+
+    .hero-inner {
+      position:relative; z-index:2;
+      display:flex; flex-direction:column; align-items:center;
+      text-align:center; padding:3rem 2rem 2rem;
+      max-width:780px;
+    }
+
+    .hero-invite-label {
+      font-family:'Lato', sans-serif;
+      font-size:.7rem; font-weight:300; letter-spacing:4px; text-transform:uppercase;
+      color:var(--ink3); margin-bottom:1.25rem;
+      animation:fadeUp .8s ease .2s both;
+    }
+
+    .hero-script {
+      font-family:'Great Vibes', cursive;
+      font-size:clamp(3rem,8vw,5.5rem);
+      color:var(--sage-dk); line-height:1.1;
+      animation:fadeUp .8s ease .4s both;
+      margin-bottom:.5rem;
+    }
+
+    .hero-names {
+      font-family:'Cormorant Garant', serif;
+      font-size:clamp(1rem,2.5vw,1.4rem);
+      font-weight:400; letter-spacing:6px; text-transform:uppercase;
+      color:var(--ink); margin-bottom:.5rem;
+      animation:fadeUp .8s ease .5s both;
+    }
+
+    .hero-ampersand {
+      font-family:'Great Vibes', cursive;
+      font-size:clamp(1.8rem,4vw,2.8rem);
+      color:var(--gold); display:block; line-height:1;
+      margin:.1rem 0;
+      animation:fadeUp .8s ease .55s both;
+    }
+
+    .hero-divider {
+      width:80px; height:1px; background:var(--gold); opacity:.6;
+      margin:1.75rem auto; animation:fadeUp .8s ease .7s both;
+    }
+
+    .hero-tagline {
+      font-family:'Cormorant Garant', serif;
+      font-size:clamp(1rem,2.2vw,1.25rem);
+      font-weight:300; font-style:italic;
+      color:var(--ink2); line-height:1.8;
+      animation:fadeUp .8s ease .75s both;
+      margin-bottom:2.5rem;
+    }
+
+    .hero-details {
+      display:flex; flex-direction:column; align-items:center; gap:.4rem;
+      animation:fadeUp .8s ease .9s both;
+    }
+    .hero-date {
+      font-family:'Cormorant Garant', serif;
+      font-size:clamp(.9rem,2vw,1.1rem);
+      font-weight:500; letter-spacing:3px; text-transform:uppercase;
+      color:var(--ink);
+    }
+    .hero-location {
+      font-family:'Lato', sans-serif;
+      font-size:.72rem; font-weight:300; letter-spacing:3px;
+      text-transform:uppercase; color:var(--ink3);
+    }
+
+    /* Countdown */
+    .countdown {
+      display:flex; align-items:flex-start; gap:2.5rem;
+      margin-top:1.75rem; margin-bottom:5rem;
+      animation:fadeUp .8s ease 1.05s both;
+      position:relative; z-index:5;
+    }
+    .cd-u { text-align:center; min-width:3.5rem; }
+    .cd-n {
+      font-family:'Cormorant Garant', serif;
+      font-size:clamp(2.6rem,5vw,3.8rem); font-weight:300; line-height:1;
+      color:var(--ink); display:block;
+    }
+    .cd-l {
+      font-family:'Lato', sans-serif;
+      font-size:.62rem; font-weight:700; letter-spacing:3px;
+      text-transform:uppercase; color:var(--ink2);
+      margin-top:.4rem; display:block;
+    }
+    .cd-sep {
+      font-family:'Cormorant Garant', serif;
+      font-size:clamp(2rem,4vw,3rem); color:var(--sage);
+      padding-top:.2rem; line-height:1; opacity:.6;
+    }
+
+    /* Botanical footer of hero */
+    .botanical-wrap {
+      position:absolute; bottom:0; left:0; right:0;
+      pointer-events:none; z-index:1;
+    }
+    .botanical-wrap svg { display:block; }
+
+    .scroll-cue {
+      position:absolute; bottom:2.5rem; left:50%; transform:translateX(-50%);
+      z-index:3; display:flex; flex-direction:column; align-items:center; gap:.5rem;
+      color:var(--ink3); font-size:.58rem; letter-spacing:3px; text-transform:uppercase;
+      animation:fadeIn 1s ease 1.5s both;
+    }
+    .scroll-bar { width:1px; height:36px; background:linear-gradient(var(--sage),transparent); animation:pulse 2s ease-in-out infinite; }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+    @keyframes pulse  { 50%{opacity:.2;} }
+
+    /* ── Shared Section Styles ────────────────────── */
+    .section-label {
+      font-family:'Lato', sans-serif;
+      font-size:.62rem; font-weight:700; letter-spacing:5px; text-transform:uppercase;
+      display:flex; align-items:center; gap:1rem; margin-bottom:.75rem;
+    }
+    .section-label::before, .section-label::after {
+      content:''; display:block; flex:1; height:1px; max-width:40px;
+    }
+    .section-label.light { color:var(--ink3); }
+    .section-label.light::before, .section-label.light::after { background:var(--line-lt); }
+    .section-label.dk { color:var(--pale3); }
+    .section-label.dk::before, .section-label.dk::after { background:var(--line-dk); }
+
+    .section-title-serif {
+      font-family:'Cormorant Garant', serif;
+      font-size:clamp(2rem,5vw,3.5rem);
+      font-weight:400; letter-spacing:2px;
+      line-height:1.1; margin-bottom:1rem;
+    }
+    .section-script {
+      font-family:'Great Vibes', cursive;
+      font-size:clamp(2rem,5vw,3rem);
+      line-height:1.2;
+    }
+    .section-desc {
+      font-family:'Cormorant Garant', serif;
+      font-size:1.1rem; font-weight:300; font-style:italic;
+      line-height:1.8; max-width:560px;
+    }
+
+    /* ── Couple Section ───────────────────────────── */
+    #couple {
+      background:var(--off-white);
+      padding:6rem 2rem;
+      position:relative;
+    }
+
+    /* thin sage top border */
+    #couple::before {
+      content:''; display:block;
+      position:absolute; top:0; left:10%; right:10%;
+      height:1px; background:linear-gradient(90deg,transparent,var(--sage-lt) 30%,var(--sage-lt) 70%,transparent);
+    }
+
+    .couple-wrap { max-width:1100px; margin:0 auto; }
+    .couple-head { text-align:center; margin-bottom:4rem; }
+    .couple-head .section-label { justify-content:center; }
+
+    .couple-grid {
+      display:grid; grid-template-columns:1fr 60px 1fr;
+      align-items:start; gap:2rem;
+    }
+
+    .bio-card { padding:0; }
+
+    .bio-header {
+      display:flex; flex-direction:column; gap:.3rem; margin-bottom:1.5rem;
+    }
+    .bio-origin {
+      font-family:'Lato', sans-serif;
+      font-size:.65rem; font-weight:700; letter-spacing:3px; text-transform:uppercase;
+      color:var(--sage);
+    }
+    .bio-name {
+      font-family:'Cormorant Garant', serif;
+      font-size:clamp(1.8rem,4vw,2.8rem);
+      font-weight:400; letter-spacing:2px;
+      color:var(--ink); line-height:1;
+    }
+    .bio-tagline {
+      font-family:'Cormorant Garant', serif;
+      font-size:1rem; font-style:italic; color:var(--ink3);
+      margin-top:.1rem;
+    }
+
+    .bio-divider { width:36px; height:1px; background:var(--gold); margin:1.25rem 0; }
+
+    .bio-text {
+      font-family:'Cormorant Garant', serif;
+      font-size:1.1rem; font-weight:300; line-height:1.85;
+      color:var(--ink2);
+    }
+    .bio-text em { font-style:italic; color:var(--ink); font-weight:400; }
+
+    .bio-footer {
+      margin-top:1.75rem;
+      display:grid; grid-template-columns:repeat(3, 1fr); gap:1rem;
+      max-width:340px;
+    }
+    .bio-stat {
+      display:flex; flex-direction:column; align-items:center; text-align:center;
+      padding:.25rem 0;
+    }
+    .bio-stat-val {
+      font-family:'Cormorant Garant', serif;
+      font-size:1.8rem; font-weight:300; color:var(--sage-dk);
+      line-height:1; height:1.8rem;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .bio-stat-lbl {
+      font-size:.58rem; font-weight:700; letter-spacing:1.8px; text-transform:uppercase;
+      color:var(--ink3); margin-top:.5rem;
+      white-space:nowrap;
+    }
+
+    /* And divider between bios */
+    .couple-and {
+      display:flex; align-items:center; justify-content:center; padding-top:2.5rem;
+    }
+    .and-inner { display:flex; flex-direction:column; align-items:center; gap:.75rem; }
+    .and-line { width:1px; height:60px; background:linear-gradient(180deg,transparent,var(--line-lt) 50%,transparent); }
+    .and-script {
+      font-family:'Great Vibes', cursive; font-size:2.2rem;
+      color:var(--sage); line-height:1;
+    }
+
+    /* ── Story / Timeline ─────────────────────────── */
+    #story {
+      background:var(--deep);
+      padding:7rem 2rem;
+      position:relative; overflow:hidden;
+    }
+
+    /* subtle texture */
+    #story::before {
+      content:''; position:absolute; inset:0; pointer-events:none;
+      background:radial-gradient(ellipse 80% 60% at 50% 0%, rgba(122,138,104,.08), transparent);
+    }
+
+    .story-head { max-width:680px; margin:0 auto 5rem; text-align:center; }
+    .story-head .section-label { justify-content:center; }
+    .story-head .section-title-serif { color:var(--pale); }
+    .story-head .section-desc { color:var(--pale2); margin:0 auto; text-align:center; }
+
+    /* Timeline spine */
+    .timeline { max-width:820px; margin:0 auto; position:relative; }
+    .timeline::before {
+      content:''; position:absolute; left:50%; top:0; bottom:0;
+      width:1px;
+      background:linear-gradient(180deg,transparent,rgba(184,144,80,.35) 10%,rgba(184,144,80,.35) 90%,transparent);
+      transform:translateX(-50%);
+    }
+
+    .tl-ev {
+      display:flex; gap:2.5rem; margin-bottom:3.5rem;
+      opacity:0; transform:translateY(20px);
+      transition:opacity .6s ease, transform .6s ease;
+    }
+    .tl-ev.vis { opacity:1; transform:translateY(0); }
+
+    .tl-ev.L  { flex-direction:row-reverse; text-align:right; }
+    .tl-ev.R  { flex-direction:row; text-align:left; }
+    .tl-ev.C  { justify-content:center; text-align:center; }
+
+    .tl-body {
+      flex:1; max-width:350px;
+      padding:1.75rem 2rem; border-radius:2px;
+      background:rgba(240,235,226,.04);
+      border:1px solid var(--line-dk);
+    }
+    .tl-ev.L .tl-body { border-left:2px solid rgba(122,138,104,.45); }
+    .tl-ev.R .tl-body { border-right:2px solid rgba(122,138,104,.45); }
+    .tl-ev.C .tl-body {
+      max-width:500px; border:1px solid rgba(184,144,80,.25);
+      background:rgba(184,144,80,.04);
+    }
+    .tl-ev.C.moment .tl-body {
+      border-color:rgba(184,144,80,.4);
+      background:rgba(184,144,80,.07);
+    }
+
+    /* node on spine */
+    .tl-node {
+      position:absolute; left:50%; transform:translateX(-50%);
+      display:flex; flex-direction:column; align-items:center; gap:.45rem; z-index:2;
+    }
+    .tl-dot {
+      width:38px; height:38px; border-radius:50%;
+      background:var(--deep); border:1px solid;
+      display:flex; align-items:center; justify-content:center;
+      font-family:'Cormorant Garant', serif; font-size:.7rem; font-weight:600; letter-spacing:1px;
+    }
+    .tl-ev.L  .tl-dot { border-color:rgba(155,174,136,.6); color:var(--sage-lt); }
+    .tl-ev.R  .tl-dot { border-color:rgba(155,174,136,.6); color:var(--sage-lt); }
+    .tl-ev.C  .tl-dot { border-color:rgba(184,144,80,.5); color:var(--gold); width:44px; height:44px; }
+    .tl-ev.C.moment .tl-dot { border-color:var(--gold); box-shadow:0 0 18px rgba(184,144,80,.3); }
+    .tl-dot svg { width:20px; height:20px; }
+    .tl-dot.camellia svg { color:#E8B4C8; }
+    .tl-dot.ball svg     { color:var(--pale); }
+
+    /* Featured proposal block */
+    .proposal-feature {
+      max-width:780px; margin:5rem auto 4rem; padding:3rem 2.5rem;
+      text-align:center; position:relative;
+      background:linear-gradient(180deg, rgba(184,144,80,.08), rgba(184,144,80,.03));
+      border-top:1px solid rgba(184,144,80,.35);
+      border-bottom:1px solid rgba(184,144,80,.35);
+      opacity:0; transform:translateY(20px);
+      transition:opacity .8s ease, transform .8s ease;
+    }
+    .proposal-feature.vis { opacity:1; transform:translateY(0); }
+    .pf-mark {
+      font-family:'Great Vibes', cursive;
+      font-size:clamp(2rem,5vw,3.2rem); color:var(--gold);
+      line-height:1; margin-bottom:.5rem;
+    }
+    .pf-label {
+      font-family:'Lato', sans-serif;
+      font-size:.62rem; font-weight:700; letter-spacing:5px; text-transform:uppercase;
+      color:var(--gold); opacity:.85; margin-bottom:1.5rem;
+    }
+    .pf-title {
+      font-family:'Cormorant Garant', serif;
+      font-size:clamp(2.4rem,6vw,4rem); font-weight:300; letter-spacing:1px;
+      color:var(--pale); line-height:1; margin-bottom:.5rem;
+    }
+    .pf-script {
+      font-family:'Great Vibes', cursive;
+      font-size:clamp(2.8rem,6vw,4.2rem); color:#E8B4C8;
+      line-height:1; margin-bottom:1.5rem;
+    }
+    .pf-rule { width:60px; height:1px; background:var(--gold); opacity:.5; margin:0 auto 1.75rem; }
+    .pf-text {
+      font-family:'Cormorant Garant', serif;
+      font-size:clamp(1rem,2vw,1.15rem); font-weight:300; font-style:italic;
+      color:var(--pale2); line-height:1.85; max-width:600px; margin:0 auto;
+    }
+    .pf-text em { font-style:normal; color:var(--pale); font-weight:400; }
+    .pf-location {
+      font-family:'Lato', sans-serif;
+      font-size:.6rem; font-weight:700; letter-spacing:4px; text-transform:uppercase;
+      color:var(--pale3); margin-top:2rem;
+    }
+
+    /* Parallel block — Camellia LEFT, Arian RIGHT, same frame */
+    .parallel-block {
+      max-width:980px; margin:0 auto 4rem;
+      display:grid; grid-template-columns:1fr auto 1fr; gap:0;
+      background:rgba(240,235,226,.03);
+      border:1px solid var(--line-dk);
+      border-radius:2px; overflow:hidden;
+      opacity:0; transform:translateY(20px);
+      transition:opacity .7s ease, transform .7s ease;
+    }
+    .parallel-block.vis { opacity:1; transform:translateY(0); }
+    .parallel-chapter-label {
+      max-width:980px; margin:0 auto 1.25rem; text-align:center;
+      font-family:'Lato', sans-serif;
+      font-size:.6rem; font-weight:700; letter-spacing:5px; text-transform:uppercase;
+      color:var(--gold); opacity:.75;
+    }
+    .parallel-col {
+      padding:2.25rem 2.25rem 2rem;
+      display:flex; flex-direction:column;
+    }
+    .parallel-col.camellia-col { border-left:3px solid #E8B4C8; text-align:left; }
+    .parallel-col.arian-col    { border-right:3px solid var(--sage-lt); text-align:right; }
+    .parallel-divider {
+      width:1px; background:linear-gradient(180deg, transparent, rgba(184,144,80,.45) 20%, rgba(184,144,80,.45) 80%, transparent);
+      margin:1rem 0;
+    }
+    .parallel-header {
+      display:flex; align-items:center; gap:.75rem;
+      margin-bottom:1.25rem; padding-bottom:1rem;
+      border-bottom:1px solid var(--line-dk);
+    }
+    .arian-col .parallel-header { flex-direction:row-reverse; }
+    .parallel-icon {
+      width:42px; height:42px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      border:1px solid;
+      background:var(--deep);
+      flex-shrink:0;
+    }
+    .camellia-col .parallel-icon { border-color:rgba(232,180,200,.5); color:#E8B4C8; }
+    .arian-col .parallel-icon    { border-color:rgba(155,174,136,.6); color:var(--pale); }
+    .parallel-icon svg { width:22px; height:22px; }
+    .parallel-name-block { flex:1; }
+    .arian-col .parallel-name-block { text-align:right; }
+    .parallel-name {
+      font-family:'Cormorant Garant', serif;
+      font-size:1.35rem; font-weight:500; letter-spacing:1.5px;
+      color:var(--pale); line-height:1; display:block;
+    }
+    .parallel-years {
+      font-family:'Lato', sans-serif;
+      font-size:.6rem; font-weight:700; letter-spacing:3px; text-transform:uppercase;
+      color:var(--pale3); margin-top:.4rem; display:block;
+    }
+    .parallel-cities {
+      font-family:'Lato', sans-serif;
+      font-size:.62rem; font-weight:700; letter-spacing:2.5px; text-transform:uppercase;
+      color:var(--gold); opacity:.85; margin-bottom:.8rem;
+    }
+    .parallel-title {
+      font-family:'Cormorant Garant', serif;
+      font-size:1.3rem; font-weight:500; letter-spacing:.5px;
+      color:var(--pale); margin-bottom:.8rem; line-height:1.25;
+    }
+    .parallel-text {
+      font-family:'Cormorant Garant', serif;
+      font-size:1rem; font-weight:300; font-style:italic;
+      color:var(--pale2); line-height:1.75;
+    }
+    .parallel-text em { font-style:normal; color:var(--pale); font-weight:400; }
+
+    .tl-year {
+      font-family:'Lato', sans-serif;
+      font-size:.55rem; font-weight:700; letter-spacing:2px; color:var(--pale3); text-align:center;
+    }
+    .tl-ev.C .tl-year { color:var(--gold); opacity:.8; }
+    .tl-sp { flex:1; }
+
+    /* event tag */
+    .ev-tag {
+      font-family:'Lato', sans-serif;
+      font-size:.55rem; font-weight:700; letter-spacing:3px; text-transform:uppercase;
+      color:var(--sage-lt); margin-bottom:.5rem; display:block;
+    }
+    .tl-ev.C.moment .ev-tag { color:var(--gold); }
+    .tl-ev.C .ev-tag { color:var(--pale3); }
+
+    .ev-title {
+      font-family:'Cormorant Garant', serif;
+      font-size:1.2rem; font-weight:500; letter-spacing:.5px;
+      color:var(--pale); margin-bottom:.6rem; line-height:1.25;
+    }
+    .ev-text {
+      font-family:'Cormorant Garant', serif;
+      font-size:1rem; font-weight:300; font-style:italic;
+      color:var(--pale2); line-height:1.75;
+    }
+    .ev-text em { font-style:normal; color:var(--pale); font-weight:400; }
+
+    /* key moment reveal */
+    .moment-reveal {
+      text-align:center; margin:1rem 0 2rem;
+      opacity:0; transform:translateY(10px);
+      transition:opacity .5s ease, transform .5s ease;
+    }
+    .moment-reveal.vis { opacity:1; transform:translateY(0); }
+    .moment-year {
+      font-family:'Cormorant Garant', serif;
+      font-size:clamp(2.5rem,6vw,4rem);
+      font-weight:300; letter-spacing:8px; color:var(--gold); opacity:.5;
+    }
+    .moment-city {
+      font-family:'Lato', sans-serif;
+      font-size:.65rem; font-weight:700; letter-spacing:5px; text-transform:uppercase;
+      color:var(--pale3); margin-top:.2rem;
+    }
+
+    /* ── Gallery ──────────────────────────────────── */
+    #gallery { background:var(--char); padding:6rem 2rem; }
+    .gallery-head { text-align:center; margin-bottom:3rem; }
+    .gallery-head .section-label { justify-content:center; color:var(--pale3); }
+    .gallery-head .section-label::before, .gallery-head .section-label::after { background:var(--line-dk); }
+    .gallery-head .section-script { color:var(--pale); }
+
+    .gallery-grid {
+      max-width:1200px; margin:0 auto;
+      display:grid; grid-template-columns:repeat(4,1fr);
+      grid-auto-rows:240px; gap:.75rem;
+    }
+    .g-cell { border-radius:2px; overflow:hidden; background:var(--deep2); position:relative; }
+    .g-cell:hover { z-index:2; }
+    .g-cell.tall { grid-row:span 2; }
+    .g-cell.wide { grid-column:span 2; }
+    .g-cell img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s ease; }
+    .g-cell:hover img { transform:scale(1.04); }
+    .g-cap {
+      position:absolute; inset:0;
+      background:linear-gradient(0deg,rgba(27,34,23,.85) 0%,transparent 55%);
+      display:flex; flex-direction:column; justify-content:flex-end; padding:.9rem 1rem;
+      opacity:0; transition:opacity .3s;
+    }
+    .g-cell:hover .g-cap { opacity:1; }
+    .g-cap-title { font-family:'Cormorant Garant',serif; font-size:.95rem; font-weight:500; color:var(--pale); letter-spacing:.5px; }
+    .g-cap-sub { font-family:'Lato',sans-serif; font-size:.62rem; color:var(--pale2); letter-spacing:1.5px; margin-top:.15rem; }
+
+    /* ── Video Reel ───────────────────────────────── */
+    #reel { background:var(--deep); padding:6rem 2rem; }
+    .reel-head { text-align:center; margin-bottom:3.5rem; }
+    .reel-head .section-label { justify-content:center; color:var(--pale3); }
+    .reel-head .section-label::before, .reel-head .section-label::after { background:var(--line-dk); }
+    .reel-head .section-script { color:var(--pale); }
+    .reel-grid { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(3,1fr); gap:1.25rem; }
+    .vid-card { border-radius:2px; overflow:hidden; background:var(--deep2); border:1px solid var(--line-dk); }
+    .vid-wrap { position:relative; width:100%; aspect-ratio:16/9; background:var(--deep2); }
+    .vid-wrap video { width:100%; height:100%; object-fit:cover; display:block; position:relative; z-index:2; background:#000; }
+    .vid-ph {
+      position:absolute; inset:0; z-index:1;
+      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.6rem;
+      background:var(--deep2); pointer-events:none;
+    }
+    .vid-ph-icon { font-size:1.5rem; opacity:.4; }
+    .vid-ph-lbl { font-family:'Lato',sans-serif; font-size:.6rem; letter-spacing:2px; text-transform:uppercase; color:var(--pale3); text-align:center; padding:0 1rem; }
+    .vid-info { padding:.9rem 1.1rem; }
+    .vid-title { font-family:'Cormorant Garant',serif; font-size:1rem; font-weight:500; color:var(--pale); margin-bottom:.15rem; }
+    .vid-sub { font-family:'Lato',sans-serif; font-size:.65rem; color:var(--pale3); }
+    .vid-note { max-width:680px; margin:2.5rem auto 0; text-align:center; padding:1.25rem 2rem; border:1px solid var(--line-dk); border-radius:2px; font-family:'Lato',sans-serif; font-size:.78rem; color:var(--pale3); line-height:1.65; }
+    .vid-note strong { color:var(--gold); }
+    .vid-note code { background:rgba(255,255,255,.06); padding:.1rem .3rem; border-radius:2px; font-size:.72rem; }
+
+    /* ── Details ──────────────────────────────────── */
+    #details {
+      background:var(--cream2); padding:7rem 2rem;
+      position:relative; overflow:hidden;
+    }
+    #details::before {
+      content:''; position:absolute; inset:0; pointer-events:none;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+      mix-blend-mode:multiply;
+    }
+
+    .details-wrap { max-width:940px; margin:0 auto; position:relative; }
+    .details-head { text-align:center; margin-bottom:4rem; }
+    .details-head .section-label { justify-content:center; }
+
+    .programme { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-bottom:4rem; }
+    .prog-card {
+      padding:2rem 1.5rem; text-align:center;
+      border:1px solid var(--line-lt); border-radius:2px;
+      background:rgba(255,255,255,.5);
+      transition:transform .3s, box-shadow .3s;
+    }
+    .prog-card:hover { transform:translateY(-3px); box-shadow:0 8px 24px rgba(44,39,32,.06); }
+    .prog-icon { font-size:1.4rem; margin-bottom:1rem; opacity:.7; }
+    .prog-lbl { font-family:'Lato',sans-serif; font-size:.58rem; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--sage); margin-bottom:.4rem; }
+    .prog-val { font-family:'Cormorant Garant',serif; font-size:1.2rem; font-weight:500; color:var(--ink); margin-bottom:.2rem; }
+    .prog-sub { font-family:'Lato',sans-serif; font-size:.72rem; color:var(--ink3); }
+
+    /* Schedule */
+    .sched-wrap { max-width:520px; margin:0 auto; }
+    .sched-head {
+      font-family:'Great Vibes', cursive; font-size:2rem;
+      color:var(--sage-dk); text-align:center; margin-bottom:2rem;
+    }
+    .sched-row { display:flex; align-items:baseline; gap:1.5rem; padding:1rem 0; border-bottom:1px solid var(--line-lt); }
+    .sched-time { font-family:'Cormorant Garant',serif; font-size:1rem; font-weight:500; color:var(--gold); min-width:60px; }
+    .sched-nm { font-family:'Cormorant Garant',serif; font-size:1rem; font-weight:400; color:var(--ink); }
+    .sched-nt { font-family:'Lato',sans-serif; font-size:.65rem; color:var(--ink3); margin-top:.15rem; }
+
+    /* ── RSVP ─────────────────────────────────────── */
+    #rsvp { background:var(--deep2); padding:7rem 2rem; }
+
+    .rsvp-wrap { max-width:640px; margin:0 auto; }
+    .rsvp-head { text-align:center; margin-bottom:3rem; }
+    .rsvp-head .section-label { justify-content:center; color:var(--pale3); }
+    .rsvp-head .section-label::before, .rsvp-head .section-label::after { background:var(--line-dk); }
+    .rsvp-head .section-script { color:var(--pale); }
+    .rsvp-deadline { font-family:'Cormorant Garant',serif; font-size:1rem; font-style:italic; color:var(--pale2); margin-top:.75rem; }
+    .rsvp-deadline strong { color:var(--gold); font-style:normal; }
+
+    .rsvp-form {
+      background:rgba(240,235,226,.04);
+      border:1px solid var(--line-dk); border-radius:2px; padding:2.5rem;
+    }
+    .f-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    .f-grp { display:flex; flex-direction:column; gap:.45rem; margin-bottom:1rem; }
+    .f-lbl { font-family:'Lato',sans-serif; font-size:.6rem; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--pale3); }
+    .f-input,.f-select,.f-textarea {
+      background:rgba(240,235,226,.06);
+      border:1px solid rgba(240,235,226,.15); border-radius:2px;
+      padding:.8rem 1rem; color:var(--pale);
+      font-family:'Cormorant Garant',serif; font-size:1rem; width:100%;
+      transition:border-color .25s, box-shadow .25s;
+    }
+    .f-input::placeholder,.f-textarea::placeholder { color:var(--pale3); }
+    .f-input:focus,.f-select:focus,.f-textarea:focus { outline:none; border-color:rgba(184,144,80,.5); box-shadow:0 0 0 3px rgba(184,144,80,.07); }
+    .f-select { cursor:pointer; appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23888' d='M5 7L0 2h10z'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 1rem center; }
+    .f-select option { background:#1B2217; color:var(--pale); }
+    .f-textarea { resize:vertical; min-height:90px; }
+
+    .submit-btn {
+      width:100%; padding:1rem 2rem; margin-top:.5rem;
+      border:1px solid var(--gold); border-radius:2px;
+      background:transparent; color:var(--gold);
+      font-family:'Cormorant Garant',serif; font-size:1.1rem; font-weight:500;
+      letter-spacing:4px; text-transform:uppercase;
+      cursor:pointer; transition:all .3s;
+    }
+    .submit-btn:hover { background:var(--gold); color:var(--deep); }
+    .submit-btn:disabled { opacity:.5; cursor:not-allowed; background:transparent; color:var(--gold); }
+
+    /* ── Footer ───────────────────────────────────── */
+    footer {
+      background:var(--char); border-top:1px solid var(--line-dk);
+      padding:3.5rem 2rem; text-align:center;
+    }
+    .footer-script { font-family:'Great Vibes', cursive; font-size:2.5rem; color:var(--sage-lt); margin-bottom:.35rem; }
+    .footer-sub { font-family:'Lato',sans-serif; font-size:.65rem; font-weight:300; letter-spacing:3px; text-transform:uppercase; color:var(--pale3); }
+    .footer-made { margin-top:2.5rem; font-family:'Lato',sans-serif; font-size:.6rem; color:rgba(240,235,226,.2); }
+
+    /* ── Responsive ───────────────────────────────── */
+    @media(max-width:900px) {
+      .couple-grid { grid-template-columns:1fr; gap:0; }
+      .couple-and { flex-direction:row; padding:2rem 0; }
+      .and-line { width:60px; height:1px; background:linear-gradient(90deg,transparent,var(--line-lt) 50%,transparent); }
+      .programme { grid-template-columns:1fr 1fr; }
+      .reel-grid { grid-template-columns:1fr 1fr; }
+    }
+    @media(max-width:768px) {
+      .timeline::before { left:20px; }
+      .tl-ev { flex-direction:column!important; text-align:left!important; padding-left:52px; }
+      .tl-node { left:20px; transform:none; }
+      .tl-body { max-width:100%!important; border-left:2px solid rgba(122,138,104,.4)!important; border-right:none!important; }
+      .tl-ev.C.moment .tl-body { border-color:rgba(184,144,80,.4)!important; }
+      .tl-sp { display:none; }
+      .gallery-grid { grid-template-columns:1fr 1fr; grid-auto-rows:180px; }
+      .g-cell.wide { grid-column:span 1; }
+      .f-row { grid-template-columns:1fr; }
+      .rsvp-form { padding:1.75rem 1.25rem; }
+      .nav-links { display:none!important; }
+      .nav-burger { display:flex; }
+      .reel-grid { grid-template-columns:1fr; }
+      .programme { grid-template-columns:1fr; }
+      .countdown { gap:1.25rem; }
+      .cd-n { font-size:1.8rem; }
+      .parallel-block { grid-template-columns:1fr; }
+      .parallel-divider { display:none; }
+      .parallel-col.camellia-col,
+      .parallel-col.arian-col { text-align:left; border-right:none; }
+      .parallel-col.arian-col { border-left:3px solid var(--sage-lt); border-top:1px solid var(--line-dk); }
+      .arian-col .parallel-header { flex-direction:row; }
+      .arian-col .parallel-name-block { text-align:left; }
+    }
+    @media(max-width:480px) {
+      .gallery-grid { grid-template-columns:1fr; grid-auto-rows:220px; }
+      .g-cell.tall { grid-row:span 1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Loading -->
+<div id="loading">
+  <div class="ld-script">Camellia & Arian</div>
+  <div class="ld-dots">
+    <div class="ld-dot"></div>
+    <div class="ld-dot"></div>
+    <div class="ld-dot"></div>
+  </div>
+</div>
+
+<!-- Nav -->
+<nav id="mainNav">
+  <div class="nav-brand">Camellia & Arian</div>
+  <ul class="nav-links">
+    <li><a href="#couple">The Couple</a></li>
+    <li><a href="#story">Our Story</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#details">Details</a></li>
+    <li><a href="#rsvp">RSVP</a></li>
+  </ul>
+  <div class="nav-burger" id="burger"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- Hero -->
+<section id="hero">
+  <div class="hero-sky"></div>
+
+  <div class="hero-inner">
+    <p class="hero-invite-label">You are invited to the wedding of</p>
+
+    <div class="hero-script">Camellia</div>
+    <div class="hero-ampersand">and</div>
+    <div class="hero-script">Arian</div>
+
+    <div class="hero-divider"></div>
+
+    <p class="hero-tagline">
+      A chance meeting in Moscow, 2018.<br>
+      A reunion in Berlin, 2024.<br>
+      Forever in Napa, 2026.
+    </p>
+
+    <div class="hero-details">
+      <div class="hero-date">September Nineteenth, Two Thousand Twenty-Six</div>
+      <div class="hero-location">Private Estate &nbsp;·&nbsp; Napa Valley, California</div>
+    </div>
+
+    <div class="countdown" id="countdown">
+      <div class="cd-u"><div class="cd-n" id="cd-d">--</div><div class="cd-l">Days</div></div>
+      <div class="cd-sep">·</div>
+      <div class="cd-u"><div class="cd-n" id="cd-h">--</div><div class="cd-l">Hours</div></div>
+      <div class="cd-sep">·</div>
+      <div class="cd-u"><div class="cd-n" id="cd-m">--</div><div class="cd-l">Minutes</div></div>
+      <div class="cd-sep">·</div>
+      <div class="cd-u"><div class="cd-n" id="cd-s">--</div><div class="cd-l">Seconds</div></div>
+    </div>
+  </div>
+
+  <!-- Botanical footer — cypress + vineyard hills -->
+  <div class="botanical-wrap">
+    <svg viewBox="0 0 1440 130" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="width:100%;height:130px;">
+      <!-- Far hills -->
+      <path d="M0,90 C240,50 480,78 720,60 C960,42 1200,72 1440,58 L1440,131 L0,131 Z" fill="#9BAE88" opacity="0.28"/>
+      <!-- Near vineyard -->
+      <path d="M0,100 C180,80 360,96 540,84 C720,72 900,92 1080,82 C1260,72 1360,90 1440,86 L1440,131 L0,131 Z" fill="#7A8A68" opacity="0.45"/>
+      <!-- Ground -->
+      <path d="M0,112 L1440,112 L1440,131 L0,131 Z" fill="#6B7A58" opacity="0.6"/>
+      <!-- Vineyard row lines -->
+      <line x1="0" y1="118" x2="1440" y2="115" stroke="#5A6A48" stroke-width="1" opacity="0.4"/>
+      <line x1="0" y1="124" x2="1440" y2="121" stroke="#5A6A48" stroke-width="1" opacity="0.3"/>
+      <!-- Cypress trees -->
+      <ellipse cx="120"  cy="94"  rx="7"  ry="26" fill="#4A5A38" opacity="0.80"/>
+      <ellipse cx="134"  cy="97"  rx="5"  ry="19" fill="#4A5A38" opacity="0.65"/>
+      <ellipse cx="340"  cy="90"  rx="8"  ry="30" fill="#4A5A38" opacity="0.82"/>
+      <ellipse cx="620"  cy="88"  rx="7"  ry="27" fill="#4A5A38" opacity="0.78"/>
+      <ellipse cx="636"  cy="91"  rx="5"  ry="20" fill="#4A5A38" opacity="0.62"/>
+      <ellipse cx="880"  cy="92"  rx="8"  ry="28" fill="#4A5A38" opacity="0.80"/>
+      <ellipse cx="1100" cy="89"  rx="7"  ry="25" fill="#4A5A38" opacity="0.76"/>
+      <ellipse cx="1118" cy="92"  rx="5"  ry="19" fill="#4A5A38" opacity="0.62"/>
+      <ellipse cx="1360" cy="93"  rx="8"  ry="27" fill="#4A5A38" opacity="0.78"/>
+    </svg>
+  </div>
+
+  <div class="scroll-cue">
+    <div class="scroll-bar"></div>
+    Continue
+  </div>
+</section>
+
+<!-- The Couple -->
+<section id="couple">
+  <div class="couple-wrap">
+    <div class="couple-head">
+      <div class="section-label light">The Couple</div>
+      <div class="section-script" style="color:var(--sage-dk);">Two worlds. One story.</div>
+    </div>
+
+    <div class="couple-grid">
+
+      <!-- Camellia -->
+      <div class="bio-card">
+        <div class="bio-header">
+          <div class="bio-origin">San Francisco, CA &nbsp;·&nbsp; Iranian-American</div>
+          <div class="bio-name">Camellia<br>Senemar</div>
+          <div class="bio-tagline">A devoted CR7 faithful, and so much more.</div>
+        </div>
+        <div class="bio-divider"></div>
+        <p class="bio-text">
+          Camellia grew up in the Bay Area with Iranian parents who gave her every opportunity — but when they put her in sports, one stood above the rest. From <em>age six</em>, she was a footballer. Not because anyone pushed her, but because she loved it. She went on to play Division I soccer at <em>UC Berkeley</em>, then took that same relentless drive to <em>Fox Sports</em>, to Facebook, Lyft, and eventually into payments at <em>Visa</em>, where sharp instincts and a competitive spirit found a natural home. She has followed Cristiano Ronaldo with the kind of devotion she brings to everything.
+        </p>
+        <div class="bio-footer">
+          <div class="bio-stat">
+            <div class="bio-stat-val">D1</div>
+            <div class="bio-stat-lbl">Cal Bears</div>
+          </div>
+          <div class="bio-stat">
+            <div class="bio-stat-val">SF</div>
+            <div class="bio-stat-lbl">Home</div>
+          </div>
+          <div class="bio-stat">
+            <div class="bio-stat-val">CR7</div>
+            <div class="bio-stat-lbl">Allegiance</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- And -->
+      <div class="couple-and">
+        <div class="and-inner">
+          <div class="and-line"></div>
+          <div class="and-script">and</div>
+          <div class="and-line"></div>
+        </div>
+      </div>
+
+      <!-- Arian -->
+      <div class="bio-card">
+        <div class="bio-header">
+          <div class="bio-origin">San José, Costa Rica &nbsp;·&nbsp; Pura Vida</div>
+          <div class="bio-name">Arian<br>Razzaghi</div>
+          <div class="bio-tagline">A Messi man through and through, won't be moved.</div>
+        </div>
+        <div class="bio-divider"></div>
+        <p class="bio-text">
+          At five years old, Arian's grandfather handed him a ball painted with the flags of every nation on Earth, and told him to go see them all. It was 1994 — the year the World Cup came to America. He never stopped running. From the street courts of <em>San José, Costa Rica</em> to Harvard (where he walked onto the soccer team, then chose spreadsheets over cleats), he went on to build companies across <em>Latin America</em>, scale one from Brazil, and somewhere in between logged over <em>75 countries</em>. He also spent years caring for his mother through illness — quietly, without fanfare — before building his own company from scratch. Leo Messi is the GOAT. This is non-negotiable.
+        </p>
+        <div class="bio-footer">
+          <div class="bio-stat">
+            <div class="bio-stat-val">75+</div>
+            <div class="bio-stat-lbl">Countries</div>
+          </div>
+          <div class="bio-stat">
+            <div class="bio-stat-val">CR</div>
+            <div class="bio-stat-lbl">Home</div>
+          </div>
+          <div class="bio-stat">
+            <div class="bio-stat-val">Leo</div>
+            <div class="bio-stat-lbl">Allegiance</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Our Story -->
+<section id="story">
+  <div class="story-head">
+    <div class="section-label dk">Our Story</div>
+    <h2 class="section-title-serif" style="color:var(--pale);">The Journey</h2>
+    <p class="section-desc">
+      Met in a stadium in Moscow. Lost each other to life.
+      Found each other again in a stadium in Berlin.
+      Now here, among the vines, for good.
+    </p>
+  </div>
+
+  <!-- Side-by-side intros: Camellia LEFT, Arian RIGHT in one frame -->
+  <div class="parallel-chapter-label">Chapter One · Before They Met</div>
+  <div class="parallel-block">
+    <div class="parallel-col camellia-col">
+      <div class="parallel-header">
+        <div class="parallel-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 3c1.4 1.4 1.4 4 0 5.4 1.4-1.4 4-1.4 5.4 0-1.4 1.4-1.4 4 0 5.4-1.4-1.4-4-1.4-5.4 0 1.4-1.4 1.4-4 0-5.4-1.4 1.4-4 1.4-5.4 0 1.4-1.4 1.4-4 0-5.4 1.4 1.4 4 1.4 5.4 0z"/><circle cx="12" cy="11" r="2.2" fill="#1B2217"/></svg>
+        </div>
+        <div class="parallel-name-block">
+          <span class="parallel-name">Camellia</span>
+          <span class="parallel-years">1992 – 2018</span>
+        </div>
+      </div>
+      <div class="parallel-cities">Berkeley · LA · NYC</div>
+      <h3 class="parallel-title">A Lifetime With the Ball</h3>
+      <p class="parallel-text">A Bay Area kid raised by Iranian parents who believed in giving her every opportunity. At <em>six</em>, she fell in love with football and never let it go. Division I soccer at <em>UC Berkeley</em>. Then <em>Los Angeles</em> — Fox Sports, covering the game from the inside. Then the pivot into tech that took her to <em>New York</em> with Facebook. A player in every arena she enters.</p>
+    </div>
+    <div class="parallel-divider"></div>
+    <div class="parallel-col arian-col">
+      <div class="parallel-header">
+        <div class="parallel-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9"/><path d="M12 3l3 4.5-1.5 5h-3L9 7.5 12 3zM3.5 10l4.5 1 1.5 4-3 3.5M20.5 10l-4.5 1-1.5 4 3 3.5M12 21v-3.5"/></svg>
+        </div>
+        <div class="parallel-name-block">
+          <span class="parallel-name">Arian</span>
+          <span class="parallel-years">1990 – 2018</span>
+        </div>
+      </div>
+      <div class="parallel-cities">Harvard · SF · Brazil · the world</div>
+      <h3 class="parallel-title">A Ball Painted with Every Flag</h3>
+      <p class="parallel-text">Raised on the street courts of <em>San José, Costa Rica</em> by a grandfather who handed him a ball painted with the flags of every nation and said: <em>go see them all.</em> He walked onto soccer at <em>Harvard</em>, then walked himself off to build. A water company across Latin America. Startups in <em>San Francisco</em>. Scaling a company from <em>Brazil</em>. Facebook. By 2018, over <em>seventy-five countries</em>. Next stop: Russia.</p>
+    </div>
+  </div>
+
+  <div class="timeline">
+
+    <!-- WHERE THEY FIRST MET — Moscow 2018 -->
+    <div class="moment-reveal" data-moment>
+      <div class="moment-year">2018</div>
+      <div class="moment-city">Where They First Met · Moscow</div>
+    </div>
+
+    <div class="tl-ev C moment">
+      <div class="tl-node" style="position:relative;left:auto;transform:none;margin-bottom:1rem;">
+        <div class="tl-dot">⚽</div>
+        <div class="tl-year">WORLD CUP FINAL</div>
+      </div>
+      <div class="tl-body">
+        <span class="ev-tag">The First Meeting</span>
+        <h3 class="ev-title">Luzhniki Stadium, Moscow</h3>
+        <p class="ev-text">France vs. Croatia. The biggest match on earth. Two people who had crossed the world for football, somehow in the same city on the same weekend. <em>Pourmer</em> made the introduction — and <em>Kaveh</em>, Camellia's older brother, was right there too, looking out for his sister the way he always has, knowing Pourmer well enough to vouch. A handshake in the middle of football's grandest stage. Neither of them knew yet what it would become.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Side-by-side: 2018–2024 — what each of them was doing -->
+  <div class="parallel-chapter-label">Chapter Two · The Years Between</div>
+  <div class="parallel-block">
+    <div class="parallel-col camellia-col">
+      <div class="parallel-header">
+        <div class="parallel-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 3c1.4 1.4 1.4 4 0 5.4 1.4-1.4 4-1.4 5.4 0-1.4 1.4-1.4 4 0 5.4-1.4-1.4-4-1.4-5.4 0 1.4-1.4 1.4-4 0-5.4-1.4 1.4-4 1.4-5.4 0 1.4-1.4 1.4-4 0-5.4 1.4 1.4 4 1.4 5.4 0z"/><circle cx="12" cy="11" r="2.2" fill="#1B2217"/></svg>
+        </div>
+        <div class="parallel-name-block">
+          <span class="parallel-name">Camellia</span>
+          <span class="parallel-years">2018 – 2024</span>
+        </div>
+      </div>
+      <div class="parallel-cities">NYC · SF · Visa</div>
+      <h3 class="parallel-title">Tech, Coast to Coast</h3>
+      <p class="parallel-text">Facebook in New York. Then back west — Lyft, then a pivot into fintech that landed her at <em>Visa</em>, where sharp instincts and a competitive drive found a natural home. The years were full and fast. Moscow stayed in the memory. So did a certain someone she had met there.</p>
+    </div>
+    <div class="parallel-divider"></div>
+    <div class="parallel-col arian-col">
+      <div class="parallel-header">
+        <div class="parallel-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9"/><path d="M12 3l3 4.5-1.5 5h-3L9 7.5 12 3zM3.5 10l4.5 1 1.5 4-3 3.5M20.5 10l-4.5 1-1.5 4 3 3.5M12 21v-3.5"/></svg>
+        </div>
+        <div class="parallel-name-block">
+          <span class="parallel-name">Arian</span>
+          <span class="parallel-years">2018 – 2024</span>
+        </div>
+      </div>
+      <div class="parallel-cities">Los Angeles · Family · Building</div>
+      <h3 class="parallel-title">Los Angeles, Building & Caring</h3>
+      <p class="parallel-text">Down to <em>Los Angeles</em>. Building his own company from scratch — relentless days, longer nights. And, in the middle of it all, the chapter he doesn't talk about much: stepping away from everything to care for his <em>mother</em> through cancer. Quietly. Without fanfare. Family first, always. Out of those years came a company built right, and a son who showed up.</p>
+    </div>
+  </div>
+
+  <div class="timeline">
+
+    <!-- THE REUNION — Berlin 2024 -->
+    <div class="moment-reveal" data-moment>
+      <div class="moment-year">2024</div>
+      <div class="moment-city">The Reunion · Berlin</div>
+    </div>
+
+    <div class="tl-ev C moment">
+      <div class="tl-node" style="position:relative;left:auto;transform:none;margin-bottom:1rem;">
+        <div class="tl-dot">⚽</div>
+        <div class="tl-year">UEFA EURO FINAL</div>
+      </div>
+      <div class="tl-body">
+        <span class="ev-tag">Where the Attraction Began</span>
+        <h3 class="ev-title">Olympiastadion, Berlin</h3>
+        <p class="ev-text">Spain vs. England. Six years after Moscow, drawn back — separately — by the same pull. They met again outside the stadium with face paint still on and the city still celebrating. This time was different. The handshake from Moscow turned into a long conversation. The long conversation turned into another. Somewhere in that Berlin night, the attraction sparked into something neither of them could ignore. This time, neither of them let go.</p>
+      </div>
+    </div>
+
+    <!-- Together -->
+    <div class="tl-ev C">
+      <div class="tl-node" style="position:relative;left:auto;transform:none;margin-bottom:1rem;">
+        <div class="tl-dot">♡</div>
+        <div class="tl-year">2024 – 2025</div>
+      </div>
+      <div class="tl-body">
+        <span class="ev-tag">Together</span>
+        <h3 class="ev-title">The World, Together</h3>
+        <p class="ev-text">Croatia. Ireland. Italy. Florence. Brazil. Costa Rica. Big Sur. Mexico. Liverpool. Milan. Chelsea. Every match, every trip, every late-night dinner that stretched into the small hours. The story kept writing itself.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FEATURED PROPOSAL -->
+  <div class="proposal-feature" data-moment>
+    <div class="pf-mark">~</div>
+    <div class="pf-label">September · 2025 · Lake Garda, Italy</div>
+    <div class="pf-title">The Proposal</div>
+    <div class="pf-script">She said yes.</div>
+    <div class="pf-rule"></div>
+    <p class="pf-text">He had one idea, months in the making: get everyone there without her knowing. Both families, quietly gathered at <em>Villa Cortine</em> — a 19th-century castle perched above the shimmering blue of <em>Lake Garda</em>. Then, on a boat drifting across the water with the castle behind them and the Italian sun overhead, he asked. She said yes. When they stepped ashore, the people who matter most were waiting. It was the most magical afternoon of their lives.</p>
+    <div class="pf-location">Villa Cortine Palace · Sirmione · Lago di Garda</div>
+  </div>
+
+  <div class="timeline" style="margin-top:0;">
+    <!-- The Wedding -->
+    <div class="tl-ev C">
+      <div class="tl-node" style="position:relative;left:auto;transform:none;margin-bottom:1rem;">
+        <div class="tl-dot">◇</div>
+        <div class="tl-year">SEPTEMBER 19, 2026</div>
+      </div>
+      <div class="tl-body">
+        <span class="ev-tag">Napa Valley</span>
+        <h3 class="ev-title">Among the Vines, For Good</h3>
+        <p class="ev-text">Two cultures. Two families. Two lifetimes of wandering that somehow, improbably, beautifully — ended up here. We cannot wait to celebrate with you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Gallery -->
+<section id="gallery">
+  <div class="gallery-head">
+    <div class="section-label">Memories</div>
+    <div class="section-script">A Life in Pictures</div>
+  </div>
+
+  <div class="gallery-grid">
+
+    <div class="g-cell tall">
+      <img src="images/worldcup2018%20russia.png" alt="Russia 2018" />
+      <div class="g-cap">
+        <div class="g-cap-title">Moscow, 2018</div>
+        <div class="g-cap-sub">Where it all began</div>
+      </div>
+    </div>
+
+    <div class="g-cell wide">
+      <img src="images/main%20pic__%20soccer%20together.png" alt="Camellia & Arian" />
+      <div class="g-cap">
+        <div class="g-cap-title">Camellia & Arian</div>
+        <div class="g-cap-sub">Together</div>
+      </div>
+    </div>
+
+    <div class="g-cell">
+      <img src="images/image-1778966036432.jpg" alt="Russia 2018 group" />
+      <div class="g-cap">
+        <div class="g-cap-title">Moscow, 2018</div>
+        <div class="g-cap-sub">The group that made it happen</div>
+      </div>
+    </div>
+
+    <div class="g-cell tall">
+      <img src="images/berlin_2024__rekindlingimage-1778966047951.jpg" alt="Berlin 2024" />
+      <div class="g-cap">
+        <div class="g-cap-title">Berlin, 2024</div>
+        <div class="g-cap-sub">Found each other again</div>
+      </div>
+    </div>
+
+    <div class="g-cell wide">
+      <img src="images/berlin__rekindling__image-1778966067068.jpg" alt="Berlin Euro 2024" />
+      <div class="g-cap">
+        <div class="g-cap-title">Euro 2024 Final</div>
+        <div class="g-cap-sub">Olympiastadion, Berlin</div>
+      </div>
+    </div>
+
+    <div class="g-cell">
+      <img src="images/liverpool%20soccer%20match__%20together.png" alt="Liverpool" />
+      <div class="g-cap">
+        <div class="g-cap-title">Liverpool</div>
+        <div class="g-cap-sub">Anfield</div>
+      </div>
+    </div>
+
+    <div class="g-cell">
+      <img src="images/soccer__milan__2025.png" alt="AC Milan" />
+      <div class="g-cap">
+        <div class="g-cap-title">AC Milan</div>
+        <div class="g-cap-sub">San Siro, 2025</div>
+      </div>
+    </div>
+
+    <div class="g-cell">
+      <img src="images/travel__%20ireland__together.png" alt="Ireland" />
+      <div class="g-cap">
+        <div class="g-cap-title">Ireland</div>
+        <div class="g-cap-sub">The Emerald Isle</div>
+      </div>
+    </div>
+
+    <div class="g-cell">
+      <img src="images/travel__%20together__croatia.png" alt="Croatia" />
+      <div class="g-cap">
+        <div class="g-cap-title">Croatia</div>
+        <div class="g-cap-sub">Adriatic coast</div>
+      </div>
+    </div>
+
+    <div class="g-cell">
+      <img src="images/travel__brazil%20__couple%20.png" alt="Brazil" />
+      <div class="g-cap">
+        <div class="g-cap-title">Brazil</div>
+        <div class="g-cap-sub">Arian's second home</div>
+      </div>
+    </div>
+
+    <div class="g-cell">
+      <img src="images/travel__brazil%20__couple%202.png" alt="Brazil" />
+      <div class="g-cap">
+        <div class="g-cap-title">Brazil</div>
+        <div class="g-cap-sub">More from the south</div>
+      </div>
+    </div>
+
+    <div class="g-cell">
+      <img src="images/costa%20rica__together__image-1778966078384.jpg" alt="Costa Rica" />
+      <div class="g-cap">
+        <div class="g-cap-title">Costa Rica</div>
+        <div class="g-cap-sub">Pura Vida</div>
+      </div>
+    </div>
+
+    <div class="g-cell">
+      <img src="images/travel__costa%20rica%20__couple.png" alt="Costa Rica" />
+      <div class="g-cap">
+        <div class="g-cap-title">Costa Rica</div>
+        <div class="g-cap-sub">Home ground</div>
+      </div>
+    </div>
+
+    <div class="g-cell wide">
+      <img src="images/travel__florence__%20together.png" alt="Florence" />
+      <div class="g-cap">
+        <div class="g-cap-title">Florence</div>
+        <div class="g-cap-sub">La Bella Vita</div>
+      </div>
+    </div>
+
+    <div class="g-cell">
+      <img src="images/travel__%20big%20sur__together.png" alt="Big Sur" />
+      <div class="g-cap">
+        <div class="g-cap-title">Big Sur</div>
+        <div class="g-cap-sub">California coast</div>
+      </div>
+    </div>
+
+    <div class="g-cell">
+      <img src="images/travel__%20chable%20mexico__together.png" alt="Chable Mexico" />
+      <div class="g-cap">
+        <div class="g-cap-title">Chable, Mexico</div>
+        <div class="g-cap-sub">Away days</div>
+      </div>
+    </div>
+
+    <div class="g-cell">
+      <img src="images/travel__italy%20%20__couple%20.png" alt="Italy" />
+      <div class="g-cap">
+        <div class="g-cap-title">Italy</div>
+        <div class="g-cap-sub">Amore</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Video Reel -->
+<section id="reel">
+  <div class="reel-head">
+    <div class="section-label">In Motion</div>
+    <div class="section-script">The Highlight Reel</div>
+  </div>
+
+  <div class="reel-grid">
+    <div class="vid-card">
+      <div class="vid-wrap">
+        <video controls preload="metadata" playsinline><source src="videos/russia_2018__first%20meeting__IMG_4711.mov" type="video/mp4"></video>
+        <div class="vid-ph"><div class="vid-ph-icon">▷</div><div class="vid-ph-lbl">Moscow, 2018</div></div>
+      </div>
+      <div class="vid-info"><div class="vid-title">Moscow, 2018</div><div class="vid-sub">Where it all began</div></div>
+    </div>
+
+    <div class="vid-card">
+      <div class="vid-wrap">
+        <video controls preload="metadata" playsinline><source src="videos/liverpoo__2025__soccer%20gameIMG_8319.mov" type="video/mp4"></video>
+        <div class="vid-ph"><div class="vid-ph-icon">▷</div><div class="vid-ph-lbl">Liverpool, 2025</div></div>
+      </div>
+      <div class="vid-info"><div class="vid-title">Anfield · Liverpool</div><div class="vid-sub">A night under the lights</div></div>
+    </div>
+
+    <div class="vid-card">
+      <div class="vid-wrap">
+        <video controls preload="metadata" playsinline><source src="videos/acmila__rome__IMG_9205.mov" type="video/mp4"></video>
+        <div class="vid-ph"><div class="vid-ph-icon">▷</div><div class="vid-ph-lbl">AC Milan, Rome</div></div>
+      </div>
+      <div class="vid-info"><div class="vid-title">San Siro · AC Milan</div><div class="vid-sub">A night at the cathedral of football</div></div>
+    </div>
+
+    <div class="vid-card">
+      <div class="vid-wrap">
+        <video controls preload="metadata" playsinline><source src="videos/soccer__chelsea%202025__IMG_9767.mov" type="video/mp4"></video>
+        <div class="vid-ph"><div class="vid-ph-icon">▷</div><div class="vid-ph-lbl">Chelsea, 2025</div></div>
+      </div>
+      <div class="vid-info"><div class="vid-title">Stamford Bridge · Chelsea</div><div class="vid-sub">Blue is the colour</div></div>
+    </div>
+
+    <div class="vid-card">
+      <div class="vid-wrap">
+        <video controls preload="metadata" playsinline><source src="videos/proposal%20post%20video__2025__Flow_VID_20250922_182244_02_047.mov" type="video/mp4"></video>
+        <div class="vid-ph"><div class="vid-ph-icon">▷</div><div class="vid-ph-lbl">The Proposal</div></div>
+      </div>
+      <div class="vid-info"><div class="vid-title">The Proposal</div><div class="vid-sub">She said yes</div></div>
+    </div>
+
+    <div class="vid-card">
+      <div class="vid-wrap">
+        <video controls preload="metadata" playsinline><source src="videos/big%20sur__IMG_0074.mov" type="video/mp4"></video>
+        <div class="vid-ph"><div class="vid-ph-icon">▷</div><div class="vid-ph-lbl">Big Sur</div></div>
+      </div>
+      <div class="vid-info"><div class="vid-title">Big Sur</div><div class="vid-sub">California coast, together</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Details -->
+<section id="details">
+  <div class="details-wrap">
+    <div class="details-head">
+      <div class="section-label light">The Wedding</div>
+      <div class="section-script" style="color:var(--sage-dk);">All the Details</div>
+      <p class="section-desc" style="color:var(--ink2);margin:.75rem auto 0;text-align:center;">
+        Everything you need for September 19th.
+      </p>
+    </div>
+
+    <div class="programme">
+      <div class="prog-card"><div class="prog-icon">📅</div><div class="prog-lbl">Date</div><div class="prog-val">September 19, 2026</div><div class="prog-sub">Saturday</div></div>
+      <div class="prog-card"><div class="prog-icon">📍</div><div class="prog-lbl">Venue</div><div class="prog-val">Private Estate</div><div class="prog-sub">130 Polson Rd, Napa CA 94588</div></div>
+      <div class="prog-card"><div class="prog-icon">🕓</div><div class="prog-lbl">Ceremony begins</div><div class="prog-val">4:00 PM</div><div class="prog-sub">Doors open at 3:30 PM</div></div>
+      <div class="prog-card"><div class="prog-icon">🍃</div><div class="prog-lbl">Dress Code</div><div class="prog-val">Vineyard Chic</div><div class="prog-sub">Elegant, garden-ready attire</div></div>
+      <div class="prog-card"><div class="prog-icon">🏨</div><div class="prog-lbl">Accommodation</div><div class="prog-val">Napa Valley</div><div class="prog-sub">Hotel details to follow</div></div>
+      <div class="prog-card"><div class="prog-icon">✈️</div><div class="prog-lbl">Getting Here</div><div class="prog-val">SFO or OAK</div><div class="prog-sub">Approx. 1 hour to Napa</div></div>
+    </div>
+
+    <div class="sched-wrap">
+      <div class="sched-head">The Day</div>
+      <div class="sched-row">
+        <div class="sched-time">3:30</div>
+        <div><div class="sched-nm">Arrive & Welcome</div><div class="sched-nt">Drinks among the vines</div></div>
+      </div>
+      <div class="sched-row">
+        <div class="sched-time">4:00</div>
+        <div><div class="sched-nm">The Ceremony</div><div class="sched-nt">Please be seated</div></div>
+      </div>
+      <div class="sched-row">
+        <div class="sched-time">5:00</div>
+        <div><div class="sched-nm">Cocktail Hour</div><div class="sched-nt">Wine, bites & golden hour</div></div>
+      </div>
+      <div class="sched-row">
+        <div class="sched-time">6:30</div>
+        <div><div class="sched-nm">Dinner Reception</div><div class="sched-nt">Feast, toasts & dancing</div></div>
+      </div>
+      <div class="sched-row">
+        <div class="sched-time">Late</div>
+        <div><div class="sched-nm">Evening's End</div><div class="sched-nt">Safe travels home</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RSVP -->
+<section id="rsvp">
+  <div class="rsvp-wrap">
+    <div class="rsvp-head">
+      <div class="section-label">Kindly Reply</div>
+      <div class="section-script">Will You Join Us?</div>
+      <p class="rsvp-deadline">Please respond by <strong>June 15, 2026</strong></p>
+    </div>
+
+    <form class="rsvp-form" id="rsvpForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <div class="f-row">
+        <div class="f-grp"><label class="f-lbl">First Name</label><input class="f-input" type="text" name="first_name" placeholder="First name" required /></div>
+        <div class="f-grp"><label class="f-lbl">Last Name</label><input class="f-input" type="text" name="last_name" placeholder="Last name" required /></div>
+      </div>
+
+      <div class="f-grp"><label class="f-lbl">Email</label><input class="f-input" type="email" name="email" placeholder="your@email.com" required /></div>
+
+      <div class="f-grp">
+        <label class="f-lbl">Will you be joining us?</label>
+        <select class="f-select" name="attendance" required>
+          <option value="">Please select</option>
+          <option value="yes">Joyfully accepts</option>
+          <option value="no">Regretfully declines</option>
+        </select>
+      </div>
+
+      <div class="f-row">
+        <div class="f-grp">
+          <label class="f-lbl">Number of Guests</label>
+          <select class="f-select" name="guests">
+            <option value="1">1 — Just me</option>
+            <option value="2">2 — Myself & a guest</option>
+            <option value="3">3</option>
+            <option value="4+">4 or more</option>
+          </select>
+        </div>
+        <div class="f-grp"><label class="f-lbl">Dietary Requirements</label><input class="f-input" type="text" name="dietary" placeholder="Any allergies or restrictions?" /></div>
+      </div>
+
+      <div class="f-grp">
+        <label class="f-lbl">A message for the couple</label>
+        <textarea class="f-textarea" name="message" placeholder="A note, a memory, a wish for the road ahead..."></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">Send your reply</button>
+    </form>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-script">Camellia & Arian</div>
+  <p class="footer-sub">September 19, 2026 &nbsp;·&nbsp; Napa Valley &nbsp;·&nbsp; Pura Vida</p>
+  <p class="footer-made">Made with love and a shared love of the beautiful game</p>
+</footer>
+
+<script>
+/* Loading */
+window.addEventListener('load', () => setTimeout(() => document.getElementById('loading').classList.add('out'), 1400));
+
+/* Countdown */
+const WEDDING = new Date('2026-09-19T16:00:00-07:00');
+function tick() {
+  const diff = WEDDING - Date.now();
+  if (diff <= 0) {
+    document.getElementById('countdown').innerHTML =
+      '<div style="font-family:\'Great Vibes\',cursive;font-size:2rem;color:var(--sage-dk);">Today is the day</div>';
+    return;
+  }
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor(diff % 86400000 / 3600000);
+  const m = Math.floor(diff % 3600000 / 60000);
+  const s = Math.floor(diff % 60000 / 1000);
+  document.getElementById('cd-d').textContent = String(d).padStart(2,'0');
+  document.getElementById('cd-h').textContent = String(h).padStart(2,'0');
+  document.getElementById('cd-m').textContent = String(m).padStart(2,'0');
+  document.getElementById('cd-s').textContent = String(s).padStart(2,'0');
+}
+tick(); setInterval(tick, 1000);
+
+/* Nav — switch to dark style over dark sections */
+const darkSections = ['story','gallery','reel','rsvp'];
+const nav = document.getElementById('mainNav');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting && darkSections.includes(e.target.id)) {
+      nav.classList.add('dark-nav');
+    } else if (e.isIntersecting) {
+      nav.classList.remove('dark-nav');
+    }
+  });
+}, { threshold: 0.4 });
+document.querySelectorAll('section[id]').forEach(s => io.observe(s));
+
+/* Scroll-in animations */
+const fadeObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.tl-ev, .moment-reveal, .proposal-feature, .parallel-block, .parallel-chapter-label').forEach(el => fadeObs.observe(el));
+
+const cardObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.prog-card, .bio-card, .sched-row, .vid-card, .g-cell').forEach((el, i) => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(14px)';
+  el.style.transition = `opacity .55s ease ${i * 0.05}s, transform .55s ease ${i * 0.05}s`;
+  cardObs.observe(el);
+});
+
+/* Video placeholder hide */
+document.querySelectorAll('.vid-wrap video').forEach(v => {
+  v.addEventListener('loadeddata', () => {
+    const ph = v.closest('.vid-wrap').querySelector('.vid-ph');
+    if (ph) ph.style.display = 'none';
+  });
+});
+
+/* RSVP */
+document.getElementById('rsvpForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true; btn.textContent = 'Sending...';
+  try {
+    const res = await fetch(e.target.action, {
+      method: 'POST', body: new FormData(e.target), headers: { Accept: 'application/json' }
+    });
+    if (res.ok) { btn.textContent = 'Reply received — thank you'; }
+    else { btn.disabled = false; btn.textContent = 'Send your reply'; alert('Something went wrong — please try again.'); }
+  } catch {
+    btn.textContent = 'Reply received — thank you';
+  }
+});
+
+/* Mobile nav */
+const burger = document.getElementById('burger');
+const nl = document.querySelector('.nav-links');
+burger.addEventListener('click', () => {
+  const open = nl.style.display === 'flex';
+  nl.style.cssText = open ? 'display:none'
+    : 'display:flex;flex-direction:column;position:absolute;top:56px;left:0;right:0;background:rgba(243,238,230,.97);padding:1.5rem 2.5rem;gap:1.5rem;border-bottom:1px solid var(--line-lt);z-index:199;backdrop-filter:blur(12px);';
+});
+nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nl.style.display = 'none'));
+</script>
+</body>
+</html>
